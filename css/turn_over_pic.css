@@ -1,3 +1,4 @@
+/*重置样式*/
 *{
 	margin: 0;
 	padding: 0;
@@ -11,6 +12,7 @@ li,ul{
 	list-style: none;
 }
 
+/*父容器*/
 .pic-turnover{
 	position: relative;
 	width: 600px;
@@ -20,6 +22,11 @@ li,ul{
 	overflow: hidden;
 }
 
+.pic-turnover:hover .arrow{
+	display: block;
+}
+
+/*轮播图片*/
 .pic-group{
 	position: relative;
 	width: 3000px;
@@ -38,6 +45,7 @@ li,ul{
 	float: left;	
 } 
 
+/*小圆圈按钮*/
 .btn-group{
 	position: absolute;
 	bottom: 15px;
@@ -48,34 +56,43 @@ li,ul{
 	text-align: center;
 }
 
+/*小圆圈按钮背景*/
 .btn-bg-group{
 	position: absolute;
-	bottom: 4.8px;
+	bottom: 1px;
 	left: 50%;
-	margin-left: -45px;
+	margin-left: -44.5px;
 	width: 100px;
 	font-size: 0;
 }
 
+/*小圆圈按钮公共样式*/
 .btn{
 	font-family: "微软雅黑";
 	font-size: 28px;
+	line-height: 20px;
 	color: #fff;
 }
 
+/*小圆圈按钮背景公共样式*/
 .btn-bg{
 	float: left;
 	width: 17px;
-	font-family: "宋体";
+	font-family: "微软雅黑";
 	font-size: 90px;
+	line-height: 105px;
 	color: rgba(0,0,0,.3);
+	opacity: 30;
+	filter: Alpha(opacity=30);
 	cursor: pointer;
 }
 
+/*鼠标点击小圆圈按钮背景改变*/
 .on{
 	color: orangered;
 }
 
+/*左右按钮*/
 .arrow{
 	position: absolute;
 	top: 50%;
@@ -89,18 +106,22 @@ li,ul{
 	cursor: pointer;
 }
 
+/*隐藏*/
 .none{
 	display: none;
 }
 
+/*按钮移入*/
 .arrow:hover{
 	background: rgba(0,0,0,.7);
 }
 
+/*左按钮*/
 .prev{
 	left: 20px;
 }
 
+/*右按钮*/
 .next{
 	right: 20px;
 }

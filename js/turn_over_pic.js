@@ -1,23 +1,74 @@
 window.onload = function(){
+	
+	//ie9以下支持classList
+	if (!("classList" in document.documentElement)) {  
+        Object.defineProperty(HTMLElement.prototype, 'classList', {  
+            get: function() {  
+                var self = this;  
+                function update(fn) {  
+                    return function(value) {  
+                        var classes = self.className.split(/\s+/g),  
+                            index = classes.indexOf(value);  
+                          
+                        fn(classes, index, value);  
+                        self.className = classes.join(" ");  
+                    }  
+                }  
+                  
+                return {                      
+                    add: update(function(classes, index, value) {  
+                        if (!~index) classes.push(value);  
+                    }),  
+                      
+                    remove: update(function(classes, index) {  
+                        if (~index) classes.splice(index, 1);  
+                    }),  
+                      
+                    toggle: update(function(classes, index, value) {  
+                        if (~index)  
+                            classes.splice(index, 1);  
+                        else  
+                            classes.push(value);  
+                    }),  
+                      
+                    contains: function(value) {  
+                        return !!~self.className.split(/\s+/g).indexOf(value);  
+                    },  
+                      
+                    item: function(i) {  
+                        return self.className.split(/\s+/g)[i] || null;  
+                    }  
+                };  
+            }  
+        });  
+    }  
+	
+	//左右按钮
 	var prev = getClass("span","prev")[0],
 	 	next = getClass("span","next")[0];
 	 	
-	var container = getClass("div","pic-turnover")[0],
-	    parentNode = getClass("ul","pic-group")[0],
-		pic_group = parentNode.getElementsByTagName("li");
+	var container = getClass("div","pic-turnover")[0], //父容器
+	    parentNode = getClass("ul","pic-group")[0],   //图片列表父节点
+		pic_group = parentNode.getElementsByTagName("li"); //图片dom集合
 	
-	var btn_bg = getClass("div","btn-bg-group")[0];
+	var btn_bg = getClass("div","btn-bg-group")[0];  //按钮背景
 	
-	var timer = 300;
-	var begin = null;
+	var timer = 300;  //默认图片切换300ms
+	var begin = null; //图片轮播定时器
+	//清除默认选中行为
 	document.onselectstart=new Function('event.returnValue=false;');
+	
+	//去除按钮间空白节点
 	cleanWhitespace(btn_bg);
+	//去除图片间空白节点
 	cleanWhitespace(parentNode);
 	
+	//通过index属性获取下标
 	function getindex(node){
 		return node.getAttribute("index");
 	}
 	
+	//图片向右移动动画
 	function prevAnimation(picWidth,timeout,callback){
 		if(!callback){
 			refresh_botton(getindex(parentNode.firstChild),getindex(parentNode.lastChild));
@@ -31,6 +82,7 @@ window.onload = function(){
 		});
 	}
 	
+	//图片向左移动动画
 	function nextAnimation(picWidth,timeout,callback){
 		if(!callback){
 			refresh_botton(getindex(parentNode.childNodes[0]),getindex(parentNode.childNodes[1]));
@@ -55,11 +107,13 @@ window.onload = function(){
 		},3000);	
 	}
 	
+	//刷新按钮背景样式
 	function refresh_botton(previndex,currentindex){
 		btn_bg.childNodes[previndex-1].classList.remove("on");
 		btn_bg.childNodes[currentindex-1].classList.add("on");
 	}
 	
+	//动画函数，执行图片向左还是向右移动
 	function animation(picWidth,timeout,callback){
 	    var offset = picWidth/(timeout/10);
 
@@ -83,14 +137,17 @@ window.onload = function(){
 		go();	
 	}
 	
+	//在指定子节点之前插入新的子节点
 	function insertbefore(){
 		parentNode.insertBefore(parentNode.lastChild,parentNode.firstChild);
 	}
 	
+	//在指定子节点之后插入新的子节点
 	function insertafter(){
 		parentNode.appendChild(parentNode.firstChild);
 	}
 	
+	//利用事件冒泡机制实现按钮点击事件
 	container.onclick = function(e){
 		var picWidth = parentNode.firstChild.offsetWidth;
 		e = getTarget(e);
@@ -99,21 +156,22 @@ window.onload = function(){
 		var className = classlist[classlist.length - 1];
 	
 		switch(className){
-			case "prev":
+			case "prev":  //点击左按钮
+			console.log("dd")
 				prevAnimation(picWidth,timer);		
 				clearInterval(begin);
 				BeginDisplay(picWidth,timer);
 			break;
-			case "next":
+			case "next":  //点击右按钮
 			    nextAnimation(picWidth,timer);
 			    clearInterval(begin);
 			    BeginDisplay(picWidth,timer);
 			break;
-			case "on":
+			case "on":   //点击小圆圈背景
 				clearInterval(begin);
 			    BeginDisplay(picWidth,timer);
 			break;
-			case "btn-bg" :
+			case "btn-bg" :  //点击小圆圈按钮
 				var currentindex = getindex(e),
 				    previndex = getindex(parentNode.firstChild);
 				    arround = Math.abs(previndex - currentindex);
@@ -143,16 +201,6 @@ window.onload = function(){
 			default: break;
 		}	
 	}	
-	
-	container.onmouseover = function(){
-		prev.classList.remove("none");
-		next.classList.remove("none");
-	}
-	
-	container.onmouseout = function(){
-		prev.classList.add("none");
-		next.classList.add("none");
-	}
 	
 	//开始动画循环播放
 	BeginDisplay(600,300);
