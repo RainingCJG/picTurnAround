@@ -1,0 +1,106 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+a{
+	text-decoration: none;
+}
+
+li,ul{
+	list-style: none;
+}
+
+.pic-turnover{
+	position: relative;
+	width: 600px;
+	height: 400px;
+	margin: 100px auto;
+	border: 3px solid #333;
+	overflow: hidden;
+}
+
+.pic-group{
+	position: relative;
+	width: 3000px;
+	height: 400px;
+}
+
+.pic-group li,
+.pic-group a,
+.pic-group img{
+	width: 600px;
+	height: 400px;
+	font-size: 0;
+}
+
+.pic-group li{
+	float: left;	
+} 
+
+.btn-group{
+	position: absolute;
+	bottom: 15px;
+	left: 50%;
+	margin-left: -50px;
+	width: 100px;
+	font-size: 0;
+	text-align: center;
+}
+
+.btn-bg-group{
+	position: absolute;
+	bottom: 4.8px;
+	left: 50%;
+	margin-left: -45px;
+	width: 100px;
+	font-size: 0;
+}
+
+.btn{
+	font-family: "微软雅黑";
+	font-size: 28px;
+	color: #fff;
+}
+
+.btn-bg{
+	float: left;
+	width: 17px;
+	font-family: "宋体";
+	font-size: 90px;
+	color: rgba(0,0,0,.3);
+	cursor: pointer;
+}
+
+.on{
+	color: orangered;
+}
+
+.arrow{
+	position: absolute;
+	top: 50%;
+	height: 40px;
+	width: 40px;
+	margin-top: -20px;
+	background: rgba(0,0,0,.3);
+	text-align: center;
+	color: #fff;
+	font: 36px/40px "宋体";
+	cursor: pointer;
+}
+
+.none{
+	display: none;
+}
+
+.arrow:hover{
+	background: rgba(0,0,0,.7);
+}
+
+.prev{
+	left: 20px;
+}
+
+.next{
+	right: 20px;
+}
